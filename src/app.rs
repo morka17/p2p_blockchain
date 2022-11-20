@@ -14,7 +14,7 @@ const DIFFICULTY_PREFIX: &str = "00";
 pub fn hash_to_binary_representation(hash: &[u8]) -> String {
     let mut res: String = String::default();
     for c in hash {
-        res.push_str(format!("{:b}", c));
+        res.push_str(&format!("{:b}", c));
     }
 
     res
@@ -27,14 +27,14 @@ pub struct App {
 }
 
 impl App {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self { blocks: vec![] }
     }
 
     /// ## _Genesis_
     /// `genesis` method creates the first, hard-coded block in the blockchain.
     /// >[there is no valid previous hash for genesis block]
-    fn genesis(&mut self) {
+    pub fn genesis(&mut self) {
         let genesis_block = Block {
             id: 0,
             timestamp: Utc::now().timestamp(),
@@ -48,7 +48,7 @@ impl App {
     }
 
 
-    fn try_add_block(&mut self, block: Block) {
+    pub fn try_add_block(&mut self, block: Block) {
         let latest_block = self.blocks.last().expect("There is at least one block");
         if self.is_block_valid(&block, latest_block){
             self.blocks.push(block);
@@ -58,7 +58,7 @@ impl App {
     }
 
 
-    fn is_block_valid(&self, block: &Block, previous_block: &Block) -> bool {
+    pub fn is_block_valid(&self, block: &Block, previous_block: &Block) -> bool {
         if block.previous_hash != previous_block.hash {
             warn!("block with id: {} has wrong previous hash", block.id);
             return false;
@@ -102,7 +102,7 @@ impl App {
         true
     }
 
-    fn choose_chain(&mut self, local: Vec<Block>, remote: Vec<Block>) -> Vec<Block> {
+    pub fn choose_chain(&mut self, local: Vec<Block>, remote: Vec<Block>) -> Vec<Block> {
         let is_local_valid = self.is_chain_valid(&local);
         let is_remote_valid = self.is_chain_valid(&remote);
 

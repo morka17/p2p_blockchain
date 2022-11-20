@@ -19,7 +19,7 @@ pub struct Block {
 }
 
 impl Block {
-    fn new(id: u64, previous_hash: String, data: String) -> Self {
+    pub fn new(id: u64, previous_hash: String, data: String) -> Self {
         let now = Utc::now();
         let (nonce, hash) = mine_block(id, now.timestamp(), &previous_hash, &data);
         Self {
@@ -33,7 +33,7 @@ impl Block {
     }
 }
 
-fn mine_block(id: u64, timestamp: i64, previous_hash: &str, data: &str) -> (u64, String) {
+pub fn mine_block(id: u64, timestamp: i64, previous_hash: &str, data: &str) -> (u64, String) {
     info!("mining block...");
 
     let mut nonce = 0;
